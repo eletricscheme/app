@@ -3,8 +3,8 @@
 
 <!DOCTYPE html>
 <html lang="pt-br">
+	<title>app</title>
 <head>
-	
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login e Cadastro</title>
@@ -160,118 +160,6 @@
 <div id="custom-alert" class="alert"></div>
 
 <script>
-	 let allFiles = []; // Para armazenar todos os arquivos carregados
-        let currentPath = ''; // Caminho atual no repositório
-        const token = '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'; // Coloque seu token GitHub aqui
-        const repo = 'bizoonydb/andre'; // Repositório GitHub fixo
-    
-        async function loadFiles(path = '') {
-            const url = `https://api.github.com/repos/${repo}/contents/${path}`;
-    
-            try {
-                const response = await fetch(url, {
-                    method: 'GET',
-                    headers: {
-                        'Authorization': `token ${token}`,
-                    }
-                });
-    
-                if (!response.ok) throw new Error(`Erro ${response.status}: ${response.statusText}`);
-    
-                const data = await response.json();
-                allFiles = data; // Armazenar os arquivos para pesquisa
-                const fileList = document.getElementById('file-list');
-                fileList.innerHTML = ''; // Limpar a lista de arquivos antes de adicionar novos
-    
-                // Atualizar o caminho
-                currentPath = path;
-                document.getElementById('current-path').textContent = `Caminho: /${currentPath}`;
-    
-                // Habilitar/desabilitar os botões de navegação
-                document.getElementById('back-btn').disabled = currentPath === '';
-    
-                // Separar diretórios e arquivos
-                const directories = data.filter(item => item.type === 'dir');
-                const files = data.filter(item => item.type === 'file');
-    
-                // Função para criar item de diretório ou arquivo
-                function createListItem(item, isDir = false) {
-                    const li = document.createElement('li');
-                    const a = document.createElement('a');
-                    a.textContent = item.name;
-    
-                    const rawUrl = `https://raw.githubusercontent.com/${repo}/main/${item.path}`;
-                    const fileUrl = `https://github.com/${repo}/blob/main/${item.path}`;
-    
-                    // Verificar o tipo de arquivo e ajustar o comportamento
-                    const isPdf = item.name.toLowerCase().endsWith('.pdf');
-                    const isZip = item.name.toLowerCase().endsWith('.zip');
-                    const isHtml = item.name.toLowerCase().endsWith('.html');
-                    const isUrl = item.name.toLowerCase().endsWith('.url'); // Caso seja um link direto
-    
-                    // Se for um arquivo PDF, exibe o arquivo em PDF.js
-                    if (isPdf) {
-                        a.href = `https://mozilla.github.io/pdf.js/web/viewer.html?file=${rawUrl}`;
-                    } 
-                    // Se for um arquivo ZIP, prepara para o download
-                    else if (isZip) {
-                        a.href = rawUrl;
-                        a.download = item.name; // Garante o download ao clicar
-                    } 
-                    // Se for um arquivo HTML, abre diretamente a página
-                    else if (isHtml) {
-                        // Usando a URL de GitHub Pages para renderizar o HTML como uma página
-                        a.href = `https://bizoonydb.github.io/andre/${item.path}`; // URL do GitHub Pages
-                    } 
-                    // Se for um arquivo .url ou URL, abre diretamente
-                    else if (isUrl) {
-                        a.href = rawUrl;
-                    } 
-                    // Para outros arquivos, exibe o link no GitHub
-                    else {
-                        a.href = fileUrl;
-                    }
-    
-                    a.target = '_blank'; // Sempre abre em uma nova aba
-    
-                    const nestedList = document.createElement('ul');
-                    nestedList.classList.add('nested');
-    
-                    if (isDir) {
-                        const folder = document.createElement('div');
-                        folder.classList.add('folder');
-                        folder.textContent = item.name;
-                        folder.onclick = (e) => {
-                            e.preventDefault();
-                            folder.classList.toggle('open');
-                            nestedList.classList.toggle('active');
-                            if (!nestedList.classList.contains('active')) {
-                                nestedList.innerHTML = ''; // Limpar o conteúdo se estiver recolhendo a pasta
-                            } else {
-                                loadFiles(item.path); // Carregar conteúdo da pasta
-                            }
-                        };
-    
-                        li.appendChild(folder);
-                        li.appendChild(nestedList);
-                    } else {
-                        const file = document.createElement('div');
-                        file.classList.add('file');
-                        file.appendChild(a);
-                        li.appendChild(file);
-                    }
-    
-                    fileList.appendChild(li);
-                }
-    
-                // Adicionar diretórios primeiro, depois arquivos
-                directories.forEach(dir => createListItem(dir, true));
-                files.forEach(file => createListItem(file, false));
-    
-            } catch (error) {
-                document.getElementById('file-list').innerHTML = `<li style="color: red;">Erro ao carregar arquivos: ${error.message}</li>`;
-            }
-        }
     // Função para abrir o modal de cadastro
     function openRegisterModal() {
         document.getElementById("login-popup").style.display = "none";
