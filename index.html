@@ -3,7 +3,6 @@
 
 <!DOCTYPE html>
 <html lang="pt-br">
-	<title>app</title>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -469,8 +468,8 @@
     <script>
         let allFiles = []; // Para armazenar todos os arquivos carregados
         let currentPath = ''; // Caminho atual no repositório
-        const token = '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'; // Coloque seu token GitHub aqui
-        const repo = 'bizoonydb/andre'; // Repositório GitHub fixo
+        const token = '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'; // Coloque seu token GitHub aqui
+        const repo = 'eletricscheme/app'; // Repositório GitHub fixo
     
         async function loadFiles(path = '') {
             const url = `https://api.github.com/repos/${repo}/contents/${path}`;
@@ -528,7 +527,7 @@
                     // Se for um arquivo HTML, abre diretamente a página
                     else if (isHtml) {
                         // Usando a URL de GitHub Pages para renderizar o HTML como uma página
-                        a.href = `https://bizoonydb.github.io/andre/${item.path}`; // URL do GitHub Pages
+                        a.href = `https://eletricscheme.github.io/andre/${item.path}`; // URL do GitHub Pages
                     } 
                     // Se for um arquivo .url ou URL, abre diretamente
                     else if (isUrl) {
